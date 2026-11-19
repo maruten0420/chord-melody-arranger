@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="コードMIDIとメロディーMIDIから、コードに合わせたメロディーのアレンジ・ハモリを作るブラウザアプリ">
+<title>コードに合わせてメロディーを改変</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎹%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body><main>
+<h1>🎹 コードに合わせてメロディーを改変</h1>
+<p class="sub">コードMIDIとメロディーMIDIを読み込むと、コードに合うよう改変した案を複数作ります。試聴して、良いものをMIDIで書き出してください。</p>
+<section class="drops">
+<label class="drop" id="dc"><b>① コード MIDI</b><span id="cn">クリックまたはドロップ</span><input type="file" id="fc" accept=".mid,.midi"></label>
+<label class="drop" id="dm"><b>② メロディー MIDI</b><span id="mn">クリックまたはドロップ</span><input type="file" id="fm" accept=".mid,.midi"></label>
+</section>
+<section class="opts">
+<label>メロディートラック <select id="ts"><option>-</option></select></label>
+<label>コードの移調 <select id="sh"></select></label>
+<button id="csv" disabled>⬇ 移調後のコードMIDI</button>
+<label>キー <select id="ks"></select></label>
+<label><input type="checkbox" id="cp" checked> 試聴時にコードも鳴らす</label>
+<button id="more" disabled>＋ ランダム案を追加</button>
+</section>
+<section id="arrsec"><div class="opts seg"><b>アレンジ度</b>
+<label><input type="radio" name="deg" value="0"><span>無</span></label><label><input type="radio" name="deg" value="1" checked><span>小</span></label><label><input type="radio" name="deg" value="2"><span>中</span></label><label><input type="radio" name="deg" value="3"><span>大</span></label>
+<button id="rr" type="button">🎲 再抽選</button></div>
+<div class="opts"><label><input type="checkbox" id="o_stac" checked> 短く切る</label><label><input type="checkbox" id="o_early" checked> 少し前にずらす</label><label><input type="checkbox" id="o_late"> 少し後ろにずらす</label><label><input type="checkbox" id="o_split" checked> 細かくする（連打）</label><label><input type="checkbox" id="o_fill" checked> 経過音を足す</label><label><input type="checkbox" id="o_grace"> 装飾音を足す</label><label><input type="checkbox" id="o_swing"> ハネさせる</label><label><input type="checkbox" id="o_accent" checked> 強弱を付ける</label></div>
+<p class="sub" style="margin:-6px 0 10px">コードに合わせた各案に、リズムや装飾のアレンジを重ねます。足す音はコードスケール内から選びます（原曲カードは対象外）。</p></section>
+<div id="msg"></div>
+<details><summary>コード解析結果（間違いは名前を直接書き換えられます）</summary><div id="cl"></div></details>
+<div class="roll"><div id="sc"><div id="inner"><canvas id="cv"></canvas><div id="ph"></div></div></div></div>
+<div class="leg"><span><i style="background:var(--ac2)"></i>そのまま</span><span><i style="background:var(--ac)"></i>改変した音</span><span><i style="border:1px solid var(--mut)"></i>元の音</span><span><i style="background:var(--stripe)"></i>コード構成音</span><span><i style="background:var(--ac3)"></i>ハモリ</span></div>
+<div id="cards"></div>
+<section id="hsec"><h2>🎶 ハモリ</h2>
+<p class="sub">選んだメロディー案に、コードと合うハモリを付けます。複数案を試聴して、良いものを書き出せます。</p>
+<div class="opts"><label>ベースのメロディー <select id="hs"></select></label><label>ベロシティ <input type="number" id="hv" value="80" min="10" max="127" style="width:64px;font:inherit;padding:5px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--fg)"> %</label><label>書き出し <select id="ho"><option value="h">ハモリのみ</option><option value="b">メロディー＋ハモリ</option></select></label><button id="hg" disabled>ハモリを生成</button></div>
+<div id="hcards"></div></section>
+</main>
+<script src="js/app.js"></script>
+</body></html>
